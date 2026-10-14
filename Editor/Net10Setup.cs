@@ -51,9 +51,10 @@ namespace Unity7Net10
 
         private static void Setup(string[] selected)
         {
-            if (Application.platform != RuntimePlatform.WindowsEditor || !Application.unityVersion.StartsWith("7000.", StringComparison.Ordinal))
+            if ((Application.platform != RuntimePlatform.WindowsEditor && Application.platform != RuntimePlatform.LinuxEditor)
+                || !Application.unityVersion.StartsWith("7000.", StringComparison.Ordinal))
             {
-                throw new NotSupportedException("This prototype requires Unity 7 on Windows and its bundled .NET 10 SDK.");
+                throw new NotSupportedException("This prototype requires Unity 7 on Windows or Linux and its bundled .NET 10 SDK.");
             }
 
             foreach (var assetPath in selected)
@@ -140,7 +141,7 @@ namespace Unity7Net10
             var referencePack = LatestVersion(Path.Combine(sdkRoot, "packs", "Microsoft.NETCore.App.Ref"));
             referencePack = Path.Combine(referencePack, "ref", "net10.0");
             var compiler = Path.Combine(LatestVersion(Path.Combine(sdkRoot, "sdk")), "Roslyn", "bincore", "csc.dll");
-            var dotnet = Path.Combine(sdkRoot, "dotnet.exe");
+            var dotnet = Path.Combine(sdkRoot, Net10Bootstrap.DotNetExecutable);
             var tool = Net10Bootstrap.ToolDirectory;
             Directory.CreateDirectory(tool);
             var response = Path.Combine(tool, "references.rsp");

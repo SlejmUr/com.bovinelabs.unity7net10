@@ -2,7 +2,7 @@
 
 An **Editor-only UPM package** enabling .NET 10 APIs and C# 11 in selected assemblies, including matching IL postprocessing references and generated IDE projects.
 
-Experimental. Validated on Windows / Unity 7000.0.0a9 and its .NET 10 CoreCLR runtime. IL2CPP, Burst jobs, other platforms, and later Unity internals are unverified.
+Experimental. Validated on Windows / Unity 7000.0.0a9 and its .NET 10 CoreCLR runtime. Setup also permits Linux Editors and selects their bundled dotnet host; Linux setup, cold restart, IDE generation, and standalone players remain unverified. IL2CPP, Burst jobs, other platforms, and later Unity internals are unverified.
 
 ## Setup
 

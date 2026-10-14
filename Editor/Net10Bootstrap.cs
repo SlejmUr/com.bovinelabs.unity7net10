@@ -17,6 +17,8 @@ namespace Unity7Net10
 
         internal static string ToolDirectory => Path.Combine(Path.GetDirectoryName(Application.dataPath), ".unity7-net10");
 
+        internal static string DotNetExecutable => Application.platform == RuntimePlatform.WindowsEditor ? "dotnet.exe" : "dotnet";
+
         static Net10Bootstrap()
         {
             // Configured projects reinstall the hook before enabling modern source after startup.
@@ -47,7 +49,7 @@ namespace Unity7Net10
             var config = JsonUtility.FromJson<ProfileConfiguration>(File.ReadAllText(configurationPath));
             var editorData = Path.Combine(Path.GetDirectoryName(EditorApplication.applicationPath), "Data");
             config.originalProgram = Path.Combine(editorData, "Tools", "BuildPipeline", "ScriptCompilationBuildProgram.exe");
-            config.dotnet = Path.Combine(editorData, "DotNetSdk", "dotnet.exe");
+            config.dotnet = Path.Combine(editorData, "DotNetSdk", DotNetExecutable);
             var packs = Path.Combine(editorData, "DotNetSdk", "packs", "Microsoft.NETCore.App.Ref");
             config.referencePack = Directory.GetDirectories(packs)
                 .Where(path => Version.TryParse(Path.GetFileName(path), out var version) && version.Major == 10)
