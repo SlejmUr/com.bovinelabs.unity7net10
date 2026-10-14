@@ -1,0 +1,10 @@
+{
+  "name": "com.bovinelabs.unity7net10",
+  "version": "0.1.0",
+  "displayName": "Unity 7 .NET 10",
+  "description": "Experimental opt-in .NET 10 compilation, IL postprocessing references, and IDE project generation.",
+  "unity": "7000.0",
+  "author": {
+    "name": "BovineLabs"
+  }
+}

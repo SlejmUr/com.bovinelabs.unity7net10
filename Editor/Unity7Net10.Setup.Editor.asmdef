@@ -1,0 +1,7 @@
+{
+  "name": "Unity7Net10.Setup.Editor",
+  "rootNamespace": "Unity7Net10",
+  "references": [],
+  "includePlatforms": ["Editor"],
+  "autoReferenced": false
+}
