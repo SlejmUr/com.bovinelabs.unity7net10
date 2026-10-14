@@ -14,13 +14,14 @@ namespace Unity7Net10
         {
             var projectName = Path.GetFileNameWithoutExtension(path);
             var asmdef = UnityEditor.Compilation.CompilationPipeline.GetAssemblyDefinitionFilePathFromAssemblyName(projectName);
-            if (!Net10Bootstrap.IsOptedIn(asmdef))
+            var configurationPath = Path.Combine(Net10Bootstrap.ToolDirectory, "profile.json");
+            if (!Net10Bootstrap.IsOptedIn(asmdef) || !File.Exists(configurationPath))
             {
                 return content;
             }
 
 
-            var configuration = JsonUtility.FromJson<ProfileConfiguration>(File.ReadAllText(Path.Combine(Net10Bootstrap.ToolDirectory, "profile.json")));
+            var configuration = JsonUtility.FromJson<ProfileConfiguration>(File.ReadAllText(configurationPath));
             var referencePack = configuration.referencePack;
             var packReferences = Directory.GetFiles(referencePack, "*.dll").OrderBy(Path.GetFileName, StringComparer.Ordinal).ToArray();
             var packNames = new HashSet<string>(packReferences.Select(Path.GetFileName), StringComparer.OrdinalIgnoreCase);
@@ -109,8 +110,3 @@ namespace Unity7Net10
         }
     }
 }
-
-
-
-
-
