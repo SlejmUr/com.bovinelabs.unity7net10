@@ -68,7 +68,12 @@ namespace Unity7Net10
             }
 
             BuildTools();
-            var template = File.ReadAllText(Path.Combine(PackagePath, "csc.rsp"));
+            var responseContents = string.Join(
+                Environment.NewLine,
+                Net10Bootstrap.ResponseMarker,
+                "@\".unity7-net10/references.rsp\"",
+                "/langversion:11.0",
+                string.Empty);
             foreach (var assetPath in selected)
             {
                 var response = Path.Combine(Path.GetDirectoryName(FullPath(assetPath)), "csc.rsp");
@@ -76,7 +81,7 @@ namespace Unity7Net10
                 if (!existing.Contains(Net10Bootstrap.ResponseMarker))
                 {
                     Backup(response);
-                    File.WriteAllText(response, existing.TrimEnd() + Environment.NewLine + template);
+                    File.WriteAllText(response, existing.TrimEnd() + Environment.NewLine + responseContents);
                 }
             }
 
@@ -97,7 +102,7 @@ namespace Unity7Net10
                 Directory.CreateDirectory(FullPath(folder));
                 var assetPath = folder + "/" + Path.GetFileName(folder) + ".asmdef";
                 File.WriteAllText(FullPath(assetPath), "{\"name\":\"" + Path.GetFileName(folder) + "\",\"autoReferenced\":false}");
-                File.WriteAllText(FullPath(folder + "/csc.rsp"), template);
+                File.WriteAllText(FullPath(folder + "/csc.rsp"), responseContents);
                 marked.Add(assetPath);
             }
 
@@ -131,7 +136,7 @@ namespace Unity7Net10
             Net10Bootstrap.Initialize();
             AssetDatabase.Refresh();
             CompilationPipeline.RequestScriptCompilation(RequestScriptCompilationOptions.CleanBuildCache);
-            Debug.Log("Unity 7 .NET 10: configured " + marked.Count + " assembly(s). Standalone uses CoreCLR. Re-run Setup or Update after copying csc.rsp beside more asmdefs.");
+            Debug.Log("Unity 7 .NET 10: configured " + marked.Count + " assembly(s). Standalone uses CoreCLR. Use Enable Selected Assemblies to configure more asmdefs.");
         }
 
         private static void BuildTools()

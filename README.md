@@ -17,11 +17,11 @@ If no assemblies are opted in yet, Setup creates an empty **Assets/Net10** code 
 
 Select one or more asmdef assets and choose **Tools > Unity 7 .NET 10 > Enable Selected Assemblies**.
 
-For many assemblies, copy this package's **csc.rsp** beside each asmdef, then choose **Setup or Update** once. Existing compiler arguments and asmdef settings are preserved, with originals backed up in .unity7-net10/backups.
+The menu generates a **csc.rsp** beside each selected asmdef. Select multiple asmdefs to enable them together. Existing compiler arguments and asmdef settings are preserved, with originals backed up in .unity7-net10/backups.
 
-The reusable csc.rsp points to a shared, generated .unity7-net10/references.rsp and selects C# 11. The menu adds UNITY7_NET10_ENABLED to each opted-in asmdef's defineConstraints for reliable startup. Opt in assemblies consuming modern public APIs too. Default Assembly-CSharp assemblies cannot use this asmdef startup gate; use an asmdef instead.
+Each generated csc.rsp points to .unity7-net10/references.rsp under the Unity project root and selects C# 11. Setup creates this shared reference list from the installed Editor; configured startups refresh it. The menu adds UNITY7_NET10_ENABLED to each opted-in asmdef's defineConstraints for reliable startup. Opt in assemblies consuming modern public APIs too. Default Assembly-CSharp assemblies cannot use this asmdef startup gate; use an asmdef instead.
 
-Run Setup before adding modern API code to an unconfigured assembly. For assemblies added later, use either of the two menu workflows above. Do not put csc.rsp directly in Assets.
+Run Setup before adding modern API code to an unconfigured assembly. For assemblies added later, select their asmdefs and choose Enable Selected Assemblies. The menus generate the response files; no manual copying is needed.
 
 ## Updates and IDE
 
@@ -29,7 +29,7 @@ After pulling package updates or changing the Editor version, choose **Setup or 
 
 The two Editor bootstrap/project-generation scripts and setup menu compile inside Unity on its normal profile. The build-program wrapper compiles with Unity's bundled SDK and lives outside asset import under .unity7-net10. No framework DLLs are imported as Unity plugins.
 
-The wrapper replaces framework references only for assemblies marked by the reusable response file. Unity references and unmarked packages keep their reference sets. Opted-in IDE projects target net10.0 / C# 11.
+The wrapper replaces framework references only for assemblies marked by their generated response file. Unity references and unmarked packages keep their reference sets. Opted-in IDE projects target net10.0 / C# 11.
 
 Standalone is configured to use CoreCLR. The activation define is removed on graceful Editor quit so the bootstrap loads before modern source at the next startup. Commit the package and opted-in asmdef/response-file changes; generated local tools are ignored. Fresh clones run Setup once.
 
