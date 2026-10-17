@@ -64,12 +64,13 @@ namespace Unity7Net10
             var arguments = (string[])program.GetType().GetField("<AlwaysArguments>k__BackingField", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(program);
             arguments[0] = "\"" + Path.Combine(ToolDirectory, "Unity7Net10.BuildProgram.dll") + "\"";
 
-            var defines = PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.Standalone).Split(';').Where(value => !string.IsNullOrEmpty(value)).ToList();
+            NamedBuildTarget buildTarget = EditorUserBuildSettings.activeNamedBuildTarget;
+            var defines = PlayerSettings.GetScriptingDefineSymbols(buildTarget).Split(';').Where(value => !string.IsNullOrEmpty(value)).ToList();
             if (!defines.Contains(ActivationDefine))
             {
-                PlayerSettings.SetScriptingBackend(NamedBuildTarget.Standalone, ScriptingImplementation.CoreCLR);
+                PlayerSettings.SetScriptingBackend(buildTarget, ScriptingImplementation.CoreCLR);
                 defines.Add(ActivationDefine);
-                PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.Standalone, defines.ToArray());
+                PlayerSettings.SetScriptingDefineSymbols(buildTarget, defines.ToArray());
                 CompilationPipeline.RequestScriptCompilation(RequestScriptCompilationOptions.CleanBuildCache);
             }
         }
