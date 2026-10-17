@@ -72,7 +72,7 @@ namespace Unity7Net10
                 Environment.NewLine,
                 Net10Bootstrap.ResponseMarker,
                 "@\".unity7-net10/references.rsp\"",
-                "/langversion:11.0",
+                "/langversion:12.0",
                 string.Empty);
             foreach (var assetPath in selected)
             {
@@ -155,7 +155,7 @@ namespace Unity7Net10
 
             var startInfo = new ProcessStartInfo(dotnet)
             {
-                Arguments = "\"" + compiler + "\" /nologo /noconfig /nostdlib+ /deterministic+ /langversion:9.0 /target:exe /out:\""
+                Arguments = "\"" + compiler + "\" /nologo /noconfig /nostdlib+ /deterministic+ /langversion:12.0 /target:exe /out:\""
                     + Path.Combine(tool, "Unity7Net10.BuildProgram.dll") + "\" @\"" + response + "\" \""
                     + Path.Combine(PackagePath, "Tools~", "BuildProgram.cs") + "\"",
                 WorkingDirectory = ProjectPath,
